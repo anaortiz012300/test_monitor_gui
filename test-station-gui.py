@@ -16,8 +16,7 @@ def save_test_run_to_db(device, environment):
     print("DB QUERY -> INSERT test_run")
     print(f"  device={device}, environment={environment}")
     print("-" * 50)
-
-
+    
 def save_test_result_to_db(test_name, status, device, environment):
     """
     This would save an individual test result.
@@ -28,7 +27,6 @@ def save_test_result_to_db(test_name, status, device, environment):
     print(f"  test={test_name}, status={status}")
     print(f"  device={device}, environment={environment}")
     print("-" * 50)
-
 
 def get_tests_from_db():
     """
@@ -95,7 +93,6 @@ def update_table():
     progress["value"] = done
     summary_var.set(f"Done: {done}/{len(tests)}")
 
-
 def log(msg):
     ts = datetime.now().strftime("%H:%M:%S")
     log_box.configure(state="normal")
@@ -103,14 +100,11 @@ def log(msg):
     log_box.see(tk.END)
     log_box.configure(state="disabled")
 
-
 def selected_device():
     return device_var.get().strip() or "Unknown Device"
 
-
 def selected_env():
     return env_var.get().strip() or "Unknown Environment"
-
 
 def set_selectors_state(state: str):
     """state is 'normal' or 'disabled'"""
@@ -138,7 +132,6 @@ def start():
     log(f"Starting test run on Device='{selected_device()}', Env='{selected_env()}'")
     run_next_test()
 
-
 def run_next_test():
     global current
 
@@ -157,7 +150,6 @@ def run_next_test():
         table.see(children[current])
 
     root.after(900, finish_current_test)
-
 
 def finish_current_test():
     global current
@@ -178,7 +170,6 @@ def finish_current_test():
     current += 1
     root.after(250, run_next_test)
 
-
 def finish_all():
     global running
     running = False
@@ -188,7 +179,6 @@ def finish_all():
     set_selectors_state("readonly")
 
     log("All tests completed.")
-
 
 def reset():
     global running, current
@@ -208,7 +198,6 @@ def reset():
     start_btn.config(state="normal")
     reset_btn.config(state="normal")
     set_selectors_state("readonly")
-
 
 # ----------------------------
 # UI setup
