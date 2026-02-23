@@ -159,7 +159,6 @@ def finish_current_test():
     update_table()
     log(f"Finished: {tests[current]['name']} -> {result}")
 
-       # 🔥 Database hook
     save_test_result_to_db(
         test_name=tests[current]["name"],
         status=result,
