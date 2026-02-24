@@ -84,6 +84,39 @@ current = 0  # which test index we're on
 # ----------------------------
 # Helper functions
 # ----------------------------
+def open_dashboard():
+    """Open a dashboard summary window."""
+    dashboard = tk.Toplevel(root)
+    dashboard.title("Dashboard")
+    dashboard.geometry("400x300")
+    dashboard.resizable(False, False)
+
+    # Calculate stats
+    total = len(tests)
+    passed = sum(1 for t in tests if t["status"] == "PASS")
+    failed = sum(1 for t in tests if t["status"] == "FAIL")
+    running_count = sum(1 for t in tests if t["status"] == "RUNNING")
+
+    pass_rate = (passed / total * 100) if total > 0 else 0
+
+    ttk.Label(dashboard, text="Test Run Summary", font=("Segoe UI", 16, "bold")).pack(pady=15)
+
+    stats_frame = ttk.Frame(dashboard, padding=10)
+    stats_frame.pack(fill="both", expand=True)
+
+    ttk.Label(stats_frame, text=f"Total Tests: {total}", font=("Segoe UI", 12)).pack(anchor="w", pady=5)
+    ttk.Label(stats_frame, text=f"Passed: {passed}", font=("Segoe UI", 12)).pack(anchor="w", pady=5)
+    ttk.Label(stats_frame, text=f"Failed: {failed}", font=("Segoe UI", 12)).pack(anchor="w", pady=5)
+    ttk.Label(stats_frame, text=f"Currently Running: {running_count}", font=("Segoe UI", 12)).pack(anchor="w", pady=5)
+
+    ttk.Separator(stats_frame).pack(fill="x", pady=10)
+
+    ttk.Label(
+        stats_frame,
+        text=f"Pass Rate: {pass_rate:.1f}%",
+        font=("Segoe UI", 14, "bold")
+    ).pack(anchor="w", pady=5)
+
 def update_table():
     table.delete(*table.get_children())
     for i, t in enumerate(tests, start=1):
@@ -258,6 +291,9 @@ start_btn.pack(side="left", padx=(10, 6))
 
 reset_btn = ttk.Button(controls, text="Reset", command=reset)
 reset_btn.pack(side="left")
+
+dashboard_btn = ttk.Button(controls, text="Dashboard", command=open_dashboard)
+dashboard_btn.pack(side="left", padx=(6, 0))
 
 # Main split area
 main = ttk.Frame(app)
